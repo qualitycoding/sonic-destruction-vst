@@ -20,9 +20,7 @@ struct ParameterDescriptor
     int choiceCount;
 };
 
-inline constexpr int tableCount = 252;
-
-const std::array<ParameterDescriptor, 9>& parameterDescriptors();
+const std::array<ParameterDescriptor, 10>& parameterDescriptors();
 std::string tableDisplay (int table);
 float normalizedToSampleRate (float value);
 float sampleRateToNormalized (float hz);

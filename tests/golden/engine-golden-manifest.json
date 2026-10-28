@@ -10,27 +10,27 @@
   "fixtures": {
     "impulse": {
       "path": "tests/golden/expected-impulse.f32",
-      "sha256": "df1ad229af57531e240b00c2543caa5f651d3ccb6f86afdbbe04e0e98b350dc5",
+      "sha256": "f97139c8db49aa6142f997568cf59f09ea366afef9272e1e7f718993f12ac33f",
       "bytes": 2048
     },
     "ramp": {
       "path": "tests/golden/expected-ramp.f32",
-      "sha256": "55e9b01c28e50dc500784cfa912def4ff83b87ae267d3d3e97c191fd59055ba9",
+      "sha256": "fad46d3998a1e974413dc90bdee50bf8e4daecab4f04dea8821c9214ba0cfaba",
       "bytes": 2048
     },
     "sine": {
       "path": "tests/golden/expected-sine.f32",
-      "sha256": "1ad9ddb816e1fddab91d77aca56139ddd860b755107d9f26670ce13b95780371",
+      "sha256": "3d464e6c117e2db0449b1345c5ae77a63c344da27fa5e4d347a1ad6e8a74633e",
       "bytes": 2048
     },
     "noise-seed-0x47c0": {
       "path": "tests/golden/expected-noise-seed-0x47c0.f32",
-      "sha256": "6d6d95efda33baf2e897985866a1cc678c4ff24c0c80a7ec3d25a9ed9f876893",
+      "sha256": "804de67b7b471afab61d188be4381bbc9c686816c600fae2c260a6e6f9b0ba0d",
       "bytes": 2048
     },
     "silence": {
       "path": "tests/golden/expected-silence.f32",
-      "sha256": "5f8a1ce8385d4358321427abcebe558333fd62a5ec654316653208760cf64ab0",
+      "sha256": "b6c4834a64094ea3e95b66dec21ff0a4397265134ced9e97cf9a52dd0998db24",
       "bytes": 2048
     }
   }

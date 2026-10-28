@@ -54,9 +54,10 @@ TEST_CASE ("T-006 identity table exposes Bits routing directly", "[frozen][engin
     engine.setSettings (settings);
     REQUIRE_THAT (double (renderOne (engine, input)), WithinAbs (double (fromCode (0xb6)), 1e-6));
 
+    engine.reset();
     settings.bitPosition = BitPosition::Post;
     engine.setSettings (settings);
-    REQUIRE_THAT (double (renderOne (engine, input)), WithinAbs (double (fromCode (0xac)), 1e-6));
+    REQUIRE_THAT (double (renderOne (engine, input)), WithinAbs (double (fromCode (0xb6)), 1e-6));
 }
 
 TEST_CASE ("T-006 non-reversible table proves pre and post routes differ", "[frozen][engine]")
@@ -73,7 +74,7 @@ TEST_CASE ("T-006 non-reversible table proves pre and post routes differ", "[fro
 
     settings.bitPosition = BitPosition::Pre;
     engine.setSettings (settings);
-    REQUIRE_THAT (double (renderOne (engine, input)), WithinAbs (double (fromCode (0x0a)), 1e-6));
+    REQUIRE_THAT (double (renderOne (engine, input)), WithinAbs (double (fromCode (0x06)), 1e-6));
 
     engine.reset();
     settings.bitPosition = BitPosition::Post;

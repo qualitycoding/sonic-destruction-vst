@@ -47,7 +47,7 @@ private:
     };
 
     double sampleRate_ = 48000.0;
-    const uint8_t* tables_ = nullptr;
+    std::vector<uint8_t> tables_;
     EngineSettings settings_;
     std::array<ChannelState, maxChannels> channels_;
 };

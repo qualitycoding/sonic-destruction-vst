@@ -12,6 +12,7 @@ SAMPLE_RATE = 48000
 REQUESTED_RATE = 9000
 BITS = 3
 TABLE = 42
+POSITION = 'post'  # must match 'position' in engine-golden-manifest.json; D-007 Post = reduce after table
 
 def bits(code: int, depth: int) -> int:
     levels = 2 ** depth - 1
@@ -38,8 +39,11 @@ def reference(samples: list[float], tables: bytes) -> list[float]:
     output = []
     for index, sample in enumerate(held):
         code = max(0, min(255, math.floor((max(-1.0, min(1.0, sample)) + 1.0) * 0.5 * 255.0 + 0.5)))
-        reduced = bits(code, BITS)
-        mapped = tables[TABLE * 256 + reduced]
+        mapped = tables[TABLE * 256 + code]
+        if POSITION == 'post':
+            mapped = bits(mapped, BITS)
+        elif POSITION != 'pre':
+            raise ValueError(f'unknown position {POSITION!r}')
         normalized = 2.0 * (mapped / 255.0) - 1.0
         value = normalized - previous_input + coefficient * previous_output
         previous_input = normalized
@@ -75,7 +79,7 @@ def main() -> None:
         'requestedRate': REQUESTED_RATE,
         'bits': BITS,
         'table': TABLE,
-        'position': 'post',
+        'position': POSITION,
         'length': LENGTH,
         'fixtures': {},
     }
