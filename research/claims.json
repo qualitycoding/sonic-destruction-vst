@@ -1,0 +1,128 @@
+[
+  {
+    "id": "C-001",
+    "claim": "Official product page defines the pedal control inventory.",
+    "kind": "software",
+    "load_bearing": true,
+    "sources": [
+      {
+        "url": "See plan/PLAN.md section 11",
+        "locator": "Research register"
+      }
+    ],
+    "confidence": "verified",
+    "evidence_class": "n/a",
+    "contradicted_by": [],
+    "informs": [
+      "plan/PLAN.md"
+    ]
+  },
+  {
+    "id": "C-002",
+    "claim": "Official product page specifies 252 hexadecimal-selected wave tables.",
+    "kind": "software",
+    "load_bearing": true,
+    "sources": [
+      {
+        "url": "See plan/PLAN.md section 11",
+        "locator": "Research register"
+      }
+    ],
+    "confidence": "verified",
+    "evidence_class": "n/a",
+    "contradicted_by": [],
+    "informs": [
+      "plan/PLAN.md"
+    ]
+  },
+  {
+    "id": "C-003",
+    "claim": "JUCE and pluginval provide the pinned VST3 build and validation path.",
+    "kind": "software",
+    "load_bearing": true,
+    "sources": [
+      {
+        "url": "See plan/PLAN.md section 11",
+        "locator": "Research register"
+      }
+    ],
+    "confidence": "verified",
+    "evidence_class": "n/a",
+    "contradicted_by": [],
+    "informs": [
+      "plan/PLAN.md"
+    ]
+  },
+  {
+    "id": "C-004",
+    "claim": "JUCE licensing must be satisfied before public release.",
+    "kind": "software",
+    "load_bearing": true,
+    "sources": [
+      {
+        "url": "See plan/PLAN.md section 11",
+        "locator": "Research register"
+      }
+    ],
+    "confidence": "verified",
+    "evidence_class": "n/a",
+    "contradicted_by": [],
+    "informs": [
+      "plan/PLAN.md"
+    ]
+  },
+  {
+    "id": "C-005",
+    "claim": "Exact sample-rate endpoints and Fine mapping require hardware verification.",
+    "kind": "software",
+    "load_bearing": true,
+    "sources": [
+      {
+        "url": "See plan/PLAN.md section 11",
+        "locator": "Research register"
+      }
+    ],
+    "confidence": "inferred",
+    "evidence_class": "n/a",
+    "contradicted_by": [],
+    "informs": [
+      "plan/PLAN.md"
+    ]
+  },
+  {
+    "id": "C-006",
+    "claim": "Exact analog behavior and internal ordering require hardware verification.",
+    "kind": "software",
+    "load_bearing": true,
+    "sources": [
+      {
+        "url": "See plan/PLAN.md section 11",
+        "locator": "Research register"
+      }
+    ],
+    "confidence": "inferred",
+    "evidence_class": "n/a",
+    "contradicted_by": [],
+    "informs": [
+      "plan/PLAN.md"
+    ]
+  },
+  {
+    "id": "C-007",
+    "claim": "Static 256-code behavior for every table requires hardware verification.",
+    "kind": "software",
+    "load_bearing": true,
+    "sources": [
+      {
+        "url": "See plan/PLAN.md section 11",
+        "locator": "Research register"
+      }
+    ],
+    "confidence": "inferred",
+    "evidence_class": "n/a",
+    "contradicted_by": [],
+    "informs": [
+      "plan/PLAN.md"
+    ]
+  }
+]
