@@ -1,29 +1,45 @@
 {
   "run_id": "run-20261028T222647Z-geiger-vst3",
-  "branch": "gen-20261028T222647Z-geiger-vst3",
-  "sequence": 2,
+  "branch": "impl-run-20261028T222647Z-geiger-vst3",
+  "sequence": 3,
   "profiles": [
     "software"
   ],
   "mode_flags": {
     "software.deploys": false
   },
-  "phase": "5",
-  "subphase": "push",
-  "active_step_id": "planning-complete",
+  "phase": "S-001",
+  "subphase": "complete",
+  "active_step_id": "S-001",
   "research_round": 3,
   "exploration_round": 0,
   "proof_review_round": 0,
   "premortem_round": 1,
   "completed": [
-    "assumption-audit",
-    "github-push",
-    "plan-construction",
-    "premortem",
-    "research",
-    "specification"
+    "S-000",
+    "S-001"
   ],
-  "pending": [],
+  "pending": [
+    "S-002",
+    "S-003",
+    "S-004",
+    "S-005",
+    "S-006",
+    "S-007",
+    "S-008",
+    "S-009",
+    "S-010",
+    "S-011",
+    "S-012",
+    "S-013",
+    "S-014",
+    "S-REVIEW",
+    "S-ADVERSARIAL",
+    "S-PACKAGE",
+    "S-RELEASE",
+    "S-RETRO",
+    "S-KNOW"
+  ],
   "not_applicable": [
     "math",
     "computational",
@@ -31,12 +47,19 @@
     "software.deploys"
   ],
   "artifacts": {
+    "CMakeLists.txt": "e866d1ae08481e2d21d8854f65302e80e54dc12fd8fbe6bb9efd819aa9dbd5e9",
+    "DEVIATIONS.md": "211610bbf7e70e35b73af7ea038fe0b2cd6b38c159e1ee49bf09822e93277dc9",
+    "EXECUTION_LOG.md": "9a3eacad2cae5e2255771ce5cf492bb011dcb7b3b502a43d5d1605d3454cf9c2",
     "HANDOFF.md": "6bf2003fe4132b239a7e3aa926413d60366d77dd1d77649b2aceb8b7428a74d1",
+    "cmake/Dependencies.cmake": "b672acbaedc7101a192df228566fde768c2971fd6c9e8a89ba8b0f46e1654510",
     "knowledge/K-20261028T222647Z-juce-vst3-toolchain.md": "6f2d025907dd171d4df45f7347f992bda8f97d22b343e7fd8b9ba748dc2e3a0a",
     "knowledge/K-20261028T222647Z-pluginval-validation.md": "17de6377b188b713d14e2c0b13d4688ab1dc11af4d01ec8ada62f31ffc94cd8e",
     "knowledge/K-20261028T222647Z-wmd-geiger-controls.md": "79e0053552cfff4dc4217bfd2447c0b5880394927523eae6f1c19331fbdef7d5",
     "lessons/L-20261028T222647Z-malformed-clone-url.md": "eb75d427942412767dc49e48cd9552bb2db367bd096a01fea8974ef61e334e52",
-    "plan/PLAN.md": "af302837c0b2b63eedffc6f11ad19f0bf3ea07cbd40eff1c2bb55cc12034797a",
+    "lessons/L-20261028T225458Z-rotate-variants-not-unique.md": "7c0492721f1b070f5e7c8cd455f5d0fb56f8aa87451f0faa4fcbfc7ebf81a316",
+    "lessons/L-20261028T230335Z-red-tests-must-compile.md": "ee70d9568c42d23a84e8a015270220a32c555dcb313d2894e1cdc590644422f5",
+    "plan/ENVIRONMENT.md": "63fd03092c760255ffdbce561cdda3aedfe4de2adfcd3d0166bafd0429f019b9",
+    "plan/PLAN.md": "8ffbefc37f1de028b68f64695c601360bb0af8590919dd91511c1f9e9ebfd47d",
     "plan/PROFILE.md": "80a719b4aee32381d1fced25f1f083f0beaeaa37a1f5339e975e30359a16100a",
     "premortem/ASSUMPTION_AUDIT.md": "6c854a8bc8f6ce4c1abf463cd5942117f0eebd6fd78ca243fbe4660a5a76b2a4",
     "premortem/RISK_REGISTER.md": "1ae890062e6cc7dc2a2779fb1cd414a8708e03920f5c274d99e31b6044b1c007",
@@ -44,12 +67,46 @@
     "research/QUESTIONS.md": "f329e87e3d48671f4c9b61c51b4101c2bc4fac75db1d15d4bb1c10592c4fae78",
     "research/SOURCES.md": "3db8cebfcc24639626be57912c2e4ade85fb4b750572df25ab412a59ea15c61d",
     "research/claims.json": "02260342571b0b25f5964b0a9d6c134ad79aa9c79275a97d80fc24fcc4d62d6c",
+    "src/Parameters.cpp": "9c1d888317d6faf5d82c63b4cabec846d6f5c4cae242599c96252a668cda7ebc",
+    "src/Parameters.h": "ae06cf10f11ef918f8566a3b1569983a17ee814f8484e65bc44ef01c06754dfe",
+    "tests/FROZEN_MANIFEST.sha256": "04008f0c17d36e245389335134f03a279e9ae538b83e8ca6381815434e95337d",
+    "assets/tables/procedural-manifest.json": "1bd8368209df4ed57cdc71425aca96a68e97b01165820c96bc88847b33e61c2e",
+    "assets/tables/procedural.bin": "226c57a74537e21f5c40dd9cac2eacbe1836f0777040eb86d820fa8863a35631",
     "research/rounds/round-1.md": "686a5ee527e79119aaa493fa3137e5ac2972cb1bccbec2c9a070e664b982214e",
     "research/rounds/round-2.md": "347fb9e08bd5852ec08c64a0223a3b8e062b02db4d6ed014a89fa328d50adfc8",
-    "research/rounds/round-3.md": "f11db92bd82bd64f6c6a5295b90198f73a2eb0613c0210d194cca1c7e701c3ff"
+    "research/rounds/round-3.md": "f11db92bd82bd64f6c6a5295b90198f73a2eb0613c0210d194cca1c7e701c3ff",
+    "src/dsp/BitOps.cpp": "3098cce23e6732209403358c6be4ecc741ada2d7cc96e010e6f2f6a7587fca71",
+    "src/dsp/BitOps.h": "5918199893789406e95d91db1f53b22e529701289f4f06c595851cea0fb32417",
+    "src/dsp/DcBlocker.cpp": "c08602aea785186f31607644e9842ca55ed0977853b18bd8d5415f83be4bfee4",
+    "src/dsp/DcBlocker.h": "b02c08ec81019b329b6577dfa8cf0c2538491ca66b43f03d54bd5664f0a3a4f6",
+    "src/dsp/Engine.cpp": "adeeca62293c38043b849043aae3a79b084eeeaf92063ecaa472b0092b46c6be",
+    "src/dsp/Engine.h": "495b551b56b693d4e1de0e036e59ac6f353558f2f77bf8c08e608fbf00d6ca78",
+    "src/dsp/Preamp.cpp": "72604516bdfa46e770d3cad52ac53c9bdf532aa0eb2860cd896c76577c3b8e53",
+    "src/dsp/Preamp.h": "8fc3c03df3d6b17a2d6ebde3a2143cd6a1e589aeff51db1c6f52f87123a56207",
+    "src/dsp/SampleHold.cpp": "d7e760e97b50d87c6a072043ac4170bbec9d9eb497027a626d56bd430303bd33",
+    "src/dsp/SampleHold.h": "04475a0a9930992cb16da91f50be2ce6a0d81bfdf6132428891bbd26e0c92fbf",
+    "src/dsp/Tables.cpp": "cafea66e7ffcf93a92b90e7f0822495243d6d7e54670f536790726220d7b20f6",
+    "src/dsp/Tables.h": "4d4ab7d37f96de5493f98a1ef92437d7aa85a52b236e46ae44e7ba9ddb42bfff",
+    "src/dsp/Tone.cpp": "1c2ef1590dcf4344a690cefd2b6b854b5fd9b78a30caec721b762ca5ddc73337",
+    "src/dsp/Tone.h": "d89a00f2452dcc95b71aec81224816b30279113201a59ae209533441af35fe35",
+    "src/plugin/CMakeLists.txt": "339b1d67d0464204e593fa5420f577b9fdcf2f1b1679ecec1d02e95d168464f2",
+    "tests/golden/engine-golden-manifest.json": "457003932d7f986d4d5d97149ad773c7323620ba58d97da9124a7b41f7035a38",
+    "tests/golden/expected-impulse.f32": "df1ad229af57531e240b00c2543caa5f651d3ccb6f86afdbbe04e0e98b350dc5",
+    "tests/golden/expected-noise-seed-0x47c0.f32": "6d6d95efda33baf2e897985866a1cc678c4ff24c0c80a7ec3d25a9ed9f876893",
+    "tests/golden/expected-ramp.f32": "55e9b01c28e50dc500784cfa912def4ff83b87ae267d3d3e97c191fd59055ba9",
+    "tests/golden/expected-silence.f32": "5f8a1ce8385d4358321427abcebe558333fd62a5ec654316653208760cf64ab0",
+    "tests/golden/expected-sine.f32": "1ad9ddb816e1fddab91d77aca56139ddd860b755107d9f26670ce13b95780371",
+    "tests/integration/EngineGoldenTest.cpp": "3a1c3d3022dbfa66268274c50cdaebb136d4f2e0be510c82d142b681bafb0801",
+    "tests/unit/BitOpsTest.cpp": "fcdcc6b5c4f287eaa33ebeb269d42a79cb74354eec84f59bce2af0f48ed409d6",
+    "tests/unit/EngineRoutingTest.cpp": "f3c436b189671732129d4f9b5828df5265e2d9728db2e1c9a01f3720098ec578",
+    "tests/unit/PreampToneDcTest.cpp": "46420128ac1dc9afbb2850c4d5854e56f1d950fe0a9b885acf8d4886b02eb535",
+    "tests/unit/SampleHoldTest.cpp": "dd0bda3c598e6daf1e6e31b280d2c22b4795efd660daf6ced12b580bdf67ad95",
+    "tests/unit/TablesTest.cpp": "89739bd911fb98d8d81ac753751c795ef190e9f9659c617f5c8107469542d25b",
+    "tools/tables/generate_procedural_tables.py": "1a888b69035f3264e8bd207ff608cbf79932c158bd013049dba14961ffbd6b61",
+    "tools/tests/generate_engine_golden.py": "a3f12be5b15eeddced7bfca908eaac1d6e86d2e39b81e48f6e2580db58f986b2"
   },
   "execution_context": {
-    "current_objective": "Planning complete; plan pushed to generation branch",
+    "current_objective": "Implement the frozen acceptance suite and VST3",
     "call_stack": [
       "Phase 5: GitHub push"
     ],
@@ -60,7 +117,7 @@
       "sub_action": "complete",
       "retry_count": 0
     },
-    "scratchpad": "No implementation steps executed.",
+    "scratchpad": "Red verification valid: 11 test cases and 11 assertions fail through stub exceptions. Freeze manifest has 15 entries.",
     "in_flight_operation": null,
     "tool_cache": {}
   },
@@ -96,5 +153,5 @@
     "K-20261028T222647Z-pluginval-validation",
     "K-20261028T222647Z-wmd-geiger-controls"
   ],
-  "updated_at": "2026-10-28T22:39:40.323728+00:00"
+  "updated_at": "2026-10-28T23:05:03.224965+00:00"
 }

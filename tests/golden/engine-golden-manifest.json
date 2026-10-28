@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "generator": "tools/tests/generate_engine_golden.py",
+  "sampleRate": 48000,
+  "requestedRate": 9000,
+  "bits": 3,
+  "table": 42,
+  "position": "post",
+  "length": 512,
+  "fixtures": {
+    "impulse": {
+      "path": "tests/golden/expected-impulse.f32",
+      "sha256": "df1ad229af57531e240b00c2543caa5f651d3ccb6f86afdbbe04e0e98b350dc5",
+      "bytes": 2048
+    },
+    "ramp": {
+      "path": "tests/golden/expected-ramp.f32",
+      "sha256": "55e9b01c28e50dc500784cfa912def4ff83b87ae267d3d3e97c191fd59055ba9",
+      "bytes": 2048
+    },
+    "sine": {
+      "path": "tests/golden/expected-sine.f32",
+      "sha256": "1ad9ddb816e1fddab91d77aca56139ddd860b755107d9f26670ce13b95780371",
+      "bytes": 2048
+    },
+    "noise-seed-0x47c0": {
+      "path": "tests/golden/expected-noise-seed-0x47c0.f32",
+      "sha256": "6d6d95efda33baf2e897985866a1cc678c4ff24c0c80a7ec3d25a9ed9f876893",
+      "bytes": 2048
+    },
+    "silence": {
+      "path": "tests/golden/expected-silence.f32",
+      "sha256": "5f8a1ce8385d4358321427abcebe558333fd62a5ec654316653208760cf64ab0",
+      "bytes": 2048
+    }
+  }
+}

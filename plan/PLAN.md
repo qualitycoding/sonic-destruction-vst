@@ -203,7 +203,7 @@ Stereo channels share the selected table and parameters but not filter, hold, or
 4. **Triangle fold:** `z=mod(x×p+128,512)`; `t=z` when `z<256`, otherwise `511-z`; `y=t-128`.
 5. **Modulo wrap:** `y=mod(x×p+128,256)-128`.
 6. **XOR:** output code `c XOR ((73×p) mod 256)`.
-7. **Rotation/reversal:** `r=1+(k mod 7)`, group `g=floor(k/7)`; transform `c` by rotate-left for `g=0`, rotate-right for `g=1`, bit-reverse then rotate-left for `g=2`, and Gray code `c XOR (c>>1)` then rotate-left for `g=3`, always by `r` bits.
+7. **Rotation/reversal:** `r=1+(k mod 7)`, group `g=floor(k/7)`; form a base code by rotate-left for `g=0`, rotate-right for `g=1`, bit-reverse then rotate-left for `g=2`, or Gray code `c XOR (c>>1)` then rotate-left for `g=3`, always by `r` bits; output the base code `XOR (17k mod 256)`. The XOR term guarantees 28 unique variants without changing the intended bit-rotation family.
 8. **Signed multiplication:** `y=sign(x)×min(127, (x²×p)>>14)`.
 9. **Asymmetric threshold:** `t=8+4×(k mod 7)`, `a=1+floor(k/7)`; for `x≥0`, `y=min(127,4×a×max(0,x-t))`; otherwise `y=max(-128,-2×a×max(0,-x-2t))`.
 
