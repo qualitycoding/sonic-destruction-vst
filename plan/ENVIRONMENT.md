@@ -29,3 +29,31 @@ sha256sum -c tests/FROZEN_MANIFEST.sha256
 ```
 
 The local source dependencies were cloned from the pinned repository tags and verified by exact commit hash. Public CI will fetch the same commits; the source-tree overrides above are only a sandbox reachability workaround and are not recorded as version substitutions.
+
+## S-002 environment recovery and plug-in build commands
+
+The sandbox `/tmp` was wiped between sessions; the pinned toolchain and
+dependency trees were re-fetched with checksum/commit verification on
+2026-10-29. CMake 3.30.5 was verified against `cmake-3.30.5-SHA-256.txt`.
+JUCE and Catch2 source trees were restored at the exact pinned commits
+(`3fb5cbc0340758596dac39f7c8de47d562b4896e`, `08092139210881f01a34e60c5f2fd6afa0ea4024`).
+
+Plug-in + test build:
+
+```bash
+FETCHCONTENT_SOURCE_DIR_CATCH2=/tmp/deps/Catch2 \
+FETCHCONTENT_SOURCE_DIR_JUCE=/tmp/deps/JUCE \
+  /tmp/cmake-3.30.5/bin/cmake -S . -B /tmp/faultcounter-plugin -G Ninja \
+  -DCMAKE_MAKE_PROGRAM=/tmp/ninja-1.12.1/ninja \
+  -DCMAKE_BUILD_TYPE=Debug -DFAULTCOUNTER_BUILD_TESTS=ON -DFAULTCOUNTER_BUILD_PLUGIN=ON
+/tmp/cmake-3.30.5/bin/cmake --build /tmp/faultcounter-plugin --parallel 4
+/tmp/cmake-3.30.5/bin/ctest --test-dir /tmp/faultcounter-plugin -C Debug --output-on-failure
+```
+
+Sandbox note: the Linux container lacks several X11 `-dev` packages (Xrandr,
+Xinerama, Xcomposite, Xcursor, XInput2 headers). `src/plugin/CMakeLists.txt`
+probes for these headers and defines the corresponding `JUCE_USE_X*` feature
+flags off when absent; JUCE loads those X extensions dynamically at runtime,
+so this is a compile-time feature reduction of the sandbox build only, not a
+version or plan substitution. CI images with the full `-dev` packages build
+with all features enabled.

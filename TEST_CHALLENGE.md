@@ -150,3 +150,41 @@ After applying the three fixes: rebuild the frozen suite, confirm 10/10
 non-hostile cases pass (T-004 heap assertion tracked separately), regenerate
 `tests/FROZEN_MANIFEST.sha256`, cold-read this challenge against plan §10, and
 record lesson + knowledge items.
+
+## Amendment round 2 (S-002, 2026-10-30) — frozen T-010/T-011/T-012 compile/runtime defects
+
+Context: the four new S-002 tests (T-001, T-010, T-011, T-012) were frozen on
+2026-10-30 after verified red against the S-002 stub. The first green build of
+the real JUCE 9 implementation then exposed three further defects in the frozen
+test code itself (never compiled before freeze — the JUCE build itself was
+blocked until this session). Fixes below; manifest re-frozen.
+
+### Defect 7 — T-012/T-010: invalid BusesLayout construction (undefined behaviour)
+
+Evidence: `juce::AudioProcessor::BusesLayout` default-construction leaves
+`inputBuses`/`outputBuses` empty. Mutating through
+`getMainInputChannelSet() = ...` is a silent no-op in JUCE 9 (the
+`getMain*ChannelSet()` accessors are const-only and return by value), and
+`getChannelSet(true, 0)` on an empty array trips `juce_ArrayBase.h:156/157`
+assertions and segfaults (observed: SIGSEGV in T-010 bypass case,
+`setBusesLayout` jassert at `juce_AudioProcessor.cpp:120`).
+Fix: seed every layout from `processor.getBusesLayout()` and mutate through the
+non-const `getChannelSet(bool, int)`.
+
+### Defect 8 — T-011: out-of-range-value mutation needle assumed non-JUCE float formatting (OPEN)
+
+Evidence: the "out-of-range parameter value" case searches the payload for the
+literal `value="0.73"` and would corrupt it to `value="9.73"`. The serialized
+APVTS XML stores float values in JUCE's full-precision form, so the needle is
+not guaranteed to match; when it does not match, the mutation is a silent no-op
+and the chunk is accepted (observed: restored gain 0.73 where the test expected
+rejection). Proposed fix: locate `id="gain"` and corrupt the first digit of the
+following `value="..."` attribute instead of matching a fixed literal.
+Status: amendment in progress — evidence recorded, fix pending re-verification.
+
+### Defect 9 — BypassTest/StateTest compile errors (fixed pre-freeze, recorded for completeness)
+
+`std::vector<std::vector<float>> expected (size_t (numChannels));` is a vexing
+parse (function declaration), and `unsigned char (x)` inside a braced-init-list
+is ill-formed. Both fixed before the freeze; the frozen hashes cover the fixed
+sources.

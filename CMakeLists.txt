@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.30.5)
 
-project(FaultCounter VERSION 0.1.0 LANGUAGES CXX)
+project(FaultCounter VERSION 0.1.0 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -26,6 +26,8 @@ target_include_directories(faultcounter_core PUBLIC src)
 target_compile_features(faultcounter_core PUBLIC cxx_std_20)
 set_target_properties(faultcounter_core PROPERTIES INTERPROCEDURAL_OPTIMIZATION_RELEASE ON)
 
+add_subdirectory(src/plugin)
+
 if(FAULTCOUNTER_BUILD_TESTS)
     enable_testing()
     add_executable(FaultCounterTests
@@ -34,14 +36,19 @@ if(FAULTCOUNTER_BUILD_TESTS)
         tests/unit/TablesTest.cpp
         tests/unit/EngineRoutingTest.cpp
         tests/unit/PreampToneDcTest.cpp
+        tests/unit/ParameterTest.cpp
         tests/integration/EngineGoldenTest.cpp
+        tests/integration/BypassTest.cpp
+        tests/integration/StateTest.cpp
+        tests/integration/BusTest.cpp
     )
     target_link_libraries(FaultCounterTests PRIVATE faultcounter_core Catch2::Catch2WithMain)
+    if(TARGET FaultCounter)
+        target_link_libraries(FaultCounterTests PRIVATE FaultCounter)
+    endif()
     target_compile_definitions(FaultCounterTests PRIVATE
         FAULTCOUNTER_TABLE_ASSET_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets/tables/procedural.bin"
     )
     include(Catch)
     catch_discover_tests(FaultCounterTests)
 endif()
-
-add_subdirectory(src/plugin)

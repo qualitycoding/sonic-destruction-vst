@@ -9,3 +9,14 @@
 | 2026-10-28T23:00Z | S-001 | 3 | pass | pending | 11/11 Catch2 test cases fail red solely through stub assertions/exceptions; 15 fixtures and test files frozen in `tests/FROZEN_MANIFEST.sha256`. |
 | 2026-10-29T00:00Z | S-003…S-006 | 1 | correction | pending | Six frozen-test defects found during first green run; TEST_CHALLENGE.md filed with numeric evidence per plan §10; expectations/fixtures amended (no plan decision changed); suite re-frozen. |
 | 2026-10-29T00:05Z | S-003…S-006 | 2 | pass | pending | 11/11 frozen cases pass in Debug and ASan+UBSan builds; `sha256sum -c tests/FROZEN_MANIFEST.sha256` all OK. |
+
+## 2026-10-30 — S-002 red verified, tests frozen, implementation green except one open amendment
+
+- JUCE 9 build unblocked (API fixes: APVTS nested Listener, 2-arg
+  StringFromValue, RangedAudioParameter layout vector, getParamID).
+- New tests T-001/T-010/T-011/T-012: compile fixes, red verified against stub,
+  frozen (manifest now 19 entries).
+- Real implementation swapped in: 21/22 green in Debug. Open: T-011 malformed
+  out-of-range needle (TEST_CHALLENGE defect 8, amendment in progress).
+- Toolchain/scripts preserved in /mnt/agents/work/toolchain (configure.sh,
+  setup-session.sh); build dir must be on exec-capable fs.
