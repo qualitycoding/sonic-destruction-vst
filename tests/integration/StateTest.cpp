@@ -125,17 +125,18 @@ TEST_CASE ("T-011 malformed chunks fail safely", "[frozen][processor][state]")
             bytes[i] = char (i & 0xff);
     });
 
-    // Out-of-range parameter value in otherwise valid XML.
+    // Out-of-range parameter value in otherwise valid XML. Locate the gain
+    // PARAM and corrupt the first digit of its value attribute (JUCE
+    // serialises floats at full precision, so a fixed literal needle is not
+    // guaranteed to match — see TEST_CHALLENGE defect 8).
     expectRejected ([] (juce::MemoryBlock& chunk) {
         auto* bytes = static_cast<unsigned char*> (chunk.getData());
-        for (size_t i = 12; i < chunk.getSize(); ++i)
-        {
-            if (std::memcmp (bytes + i, "value=\"0.73\"", 12) == 0)
-            {
-                bytes[i + 7] = '9';
-                return;
-            }
-        }
+        const std::string payload (reinterpret_cast<const char*> (bytes) + 12, chunk.getSize() - 12);
+        const auto idPos = payload.find ("id=\"gain\"");
+        REQUIRE (idPos != std::string::npos);
+        const auto valuePos = payload.find ("value=\"", idPos);
+        REQUIRE (valuePos != std::string::npos);
+        bytes[12 + valuePos + 7] = '9'; // 0.73... -> 9.73..., above gain's [0,1] range
     });
 
     // Oversized chunk is rejected without reading the payload.

@@ -368,3 +368,9 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
     return new FaultCounterProcessor();
 }
 } // namespace faultcounter
+
+// JUCE's plug-in client looks up createPluginFilter() in the global namespace.
+juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
+{
+    return faultcounter::createPluginFilter();
+}

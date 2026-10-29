@@ -20,3 +20,13 @@
   out-of-range needle (TEST_CHALLENGE defect 8, amendment in progress).
 - Toolchain/scripts preserved in /mnt/agents/work/toolchain (configure.sh,
   setup-session.sh); build dir must be on exec-capable fs.
+
+## 2026-10-30 (later) — amendment round 2 closed; 22/22 green
+
+- Defect 8 fixed: StateTest corrupts gain's first value digit after locating
+  `id="gain"` (robust to JUCE full-precision float formatting).
+- BusTest/BypassTest defect-7 fixes re-frozen; manifest back to 19/19 OK.
+- Full suite: all 22 test cases passed (521740 assertions), Debug build,
+  against the real implementation.
+- Known cosmetic: JUCE debug assertions on intentionally-garbage state chunks
+  during T-011 (stderr noise only).

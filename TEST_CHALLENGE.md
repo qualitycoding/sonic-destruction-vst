@@ -180,7 +180,9 @@ not guaranteed to match; when it does not match, the mutation is a silent no-op
 and the chunk is accepted (observed: restored gain 0.73 where the test expected
 rejection). Proposed fix: locate `id="gain"` and corrupt the first digit of the
 following `value="..."` attribute instead of matching a fixed literal.
-Status: amendment in progress — evidence recorded, fix pending re-verification.
+Status: RESOLVED — the mutation now locates `id="gain"` and corrupts the first
+digit of its `value` attribute (robust to JUCE's full-precision float
+formatting). Re-frozen in the manifest; all 22 tests green.
 
 ### Defect 9 — BypassTest/StateTest compile errors (fixed pre-freeze, recorded for completeness)
 
