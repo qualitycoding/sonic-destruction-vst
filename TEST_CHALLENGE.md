@@ -190,3 +190,42 @@ formatting). Re-frozen in the manifest; all 22 tests green.
 parse (function declaration), and `unsigned char (x)` inside a braced-init-list
 is ill-formed. Both fixed before the freeze; the frozen hashes cover the fixed
 sources.
+
+## Amendment round 3 (S-008, 2026-10-30) — frozen T-018 premise defects
+
+Context: EditorTest.cpp (T-018) was frozen on 2026-10-30 after verified red
+against the S-002 stub. The first green run against the real editor exposed
+one defect in the frozen test code plus one genuine UI-contract gap that the
+frozen test correctly caught.
+
+### Defect 10 — T-018 "Fine behaviour" case hardcoded 9000 Hz as a sub-half-scale frequency (RESOLVED)
+
+Evidence: the case stores `sampleRate = 9000 Hz` and asserts
+`sampleRateToNormalized(9000) < 0.5` as the premise for the D-003 fine-remap
+behaviour. Frozen T-001 pins the D-003 mapping as logarithmic
+(`normalizedToSampleRate(v) = 280 * (58000/280)^v`), under which
+`sampleRateToNormalized(9000) = 0.6507 > 0.5` (observed: test failure with
+expansion `0.650651455f < 0.5f`). The premise is false under the frozen
+mapping; the frozen test contradicted another frozen test.
+Fix: derive the frequency from a normalized target on the mapping itself
+(`hzLow = normalizedToSampleRate(0.4f)`), keeping the sub-half-scale premise
+without hardcoding Hz. Re-frozen in the manifest.
+
+### T-018 reopen case correctly caught a UI-contract gap (implementation fixed, not a test defect)
+
+The reopen case stores `gain = 0.33` via `getRawParameterValue()->store()`
+(the same host-state path the state tests exercise) and expects a freshly
+created editor to reflect it after `syncDisplayFromApvts()`. The impl's
+initial editor did not: APVTS attachments follow the parameter object, which
+raw stores bypass. Fix (impl): `syncDisplayFromApvts()` now pushes raw
+adapter values into every attached slider/toggle with `dontSendNotification`
+(re-entry guarded by `updatingFromApvts_`). This is the D-003 "editor reflects
+APVTS state" contract; the frozen test was right.
+
+### Defect 11 — T-018 focus assertion assumed default keyboard focusability (RESOLVED)
+
+Evidence: `REQUIRE(control.getWantsKeyboardFocus())` failed for the rotary
+sliders (`name := "gain"`). JUCE Sliders do not request keyboard focus by
+default; `setWantsKeyboardFocus(true)` is required per control. Fixed in the
+impl's `styleRotary`/`styleToggle`; consistent with the frozen accessibility
+requirement, so recorded here for traceability rather than as a test change.

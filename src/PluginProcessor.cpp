@@ -3,6 +3,7 @@
 
 #include "Parameters.h"
 #include "dsp/TablesData.h"
+#include "ui/PluginEditor.h"
 
 #include <cmath>
 #include <cstring>
@@ -292,7 +293,7 @@ void FaultCounterProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
 
 juce::AudioProcessorEditor* FaultCounterProcessor::createEditor()
 {
-    return new juce::GenericAudioProcessorEditor (*this);
+    return new FaultCounterEditor (*this);
 }
 
 void FaultCounterProcessor::getStateInformation (juce::MemoryBlock& destData)

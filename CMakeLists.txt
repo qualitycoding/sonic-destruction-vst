@@ -41,6 +41,7 @@ if(FAULTCOUNTER_BUILD_TESTS)
         tests/integration/BypassTest.cpp
         tests/integration/StateTest.cpp
         tests/integration/BusTest.cpp
+        tests/integration/EditorTest.cpp
     )
     target_link_libraries(FaultCounterTests PRIVATE faultcounter_core Catch2::Catch2WithMain)
     if(TARGET FaultCounter)

@@ -32,6 +32,7 @@ if(FAULTCOUNTER_BUILD_PLUGIN)
 
     target_sources(FaultCounter PRIVATE
         ../PluginProcessor.cpp
+        ../ui/PluginEditor.cpp
         "${faultcounter_tables_embed}")
 
     # juce_add_plugin compiles plug-in sources via the shared-code target; the

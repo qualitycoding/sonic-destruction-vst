@@ -30,3 +30,20 @@
   against the real implementation.
 - Known cosmetic: JUCE debug assertions on intentionally-garbage state chunks
   during T-011 (stderr noise only).
+
+## 2026-10-30 (later) — S-008 green: accessible UI implemented, T-018 passes
+
+- Editor (src/ui/PluginEditor.{h,cpp}): brand-independent pedal-style layout,
+  5 rotary knobs + 5 toggle buttons, APVTS attachments, explicit focus order,
+  0.5–3.0 UI scaling, 30 Hz display sync timer.
+- T-018 green at 100/150/200% (204 assertions); full suite 25/25
+  (521944 assertions), Debug.
+- Amendment round 3 (TEST_CHALLENGE): defect 10 = frozen T-018 hardcoded
+  9000 Hz as sub-half-scale under the frozen log mapping (fixed by deriving
+  the frequency from the mapping); defect 11 = JUCE sliders need explicit
+  keyboard focus. Impl fix: syncDisplayFromApvts pushes raw adapter values
+  into attached controls (editor-reopen contract). Manifest re-frozen and
+  verified (20/20 OK).
+- UI evidence: docs/ui-evidence/ui-{100,150,200}.png
+  sha256: 9fa96ac8… / c1e76024… / 6fb6ae3e… (rendered headless via
+  FAULTCOUNTER_UI_OUT env gate in the frozen test).
