@@ -113,3 +113,15 @@ Rotated PAT accepted (API 200). Pushed queued commits:
   f79d133..40f805e  (CI: .github/workflows/validation.yml — new token
                      carries workflow scope; previously untracked)
 Remote verified in sync at 40f805e.
+
+## S-014 (2026-10-30, UTC) — DAW acceptance: green within environment limits
+Debug VST3 rebuilt from 13dff2d (inner binary lost to /tmp recycle; link-only
+redo from surviving object tree). pluginval v1.0.4 --strictness-level 10
+--validate-in-process: PASS, 25 sections, rc=0, on build tree
+(docs/validation/pv-s14.log) and on extracted rehearsal package
+(pv-s14-install.log). Package rehearsal: FaultCounter-0.1.0-unsigned-linux-
+vst3-rehearsal.tar.gz contents match SBOM.json (sha256
+e881a0e4...4e10, artefact on persistent mount, not committed). Trademark
+audit clean: no WMD assets, product identity original. Blocked and deferred
+to CI/clean machines: real-DAW host matrix, win/macOS, Release rehearsal —
+see docs/validation/DAW_ACCEPTANCE.md.
