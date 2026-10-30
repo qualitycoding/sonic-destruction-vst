@@ -5,20 +5,27 @@
 
 namespace faultcounter
 {
+Preamp::Preamp()
+{
+    setGain (normalizedGain_);
+}
+
 void Preamp::setGain (float normalizedGain)
 {
     normalizedGain_ = std::clamp (normalizedGain, 0.0f, 1.0f);
+
+    const float gainDb = 24.0f * normalizedGain_;
+    linearGain_ = std::pow (10.0f, gainDb / 20.0f);
+    drive_ = 8.0f * normalizedGain_ * normalizedGain_;
+    cleanGain_ = drive_ < 1.0e-6f;
+    tanhDrive_ = std::tanh (drive_);
 }
 
 float Preamp::process (float input) const
 {
-    const float gainDb = 24.0f * normalizedGain_;
-    const float gain = std::pow (10.0f, gainDb / 20.0f);
-    const float drive = 8.0f * normalizedGain_ * normalizedGain_;
+    if (cleanGain_)
+        return linearGain_ * input;
 
-    if (drive < 1.0e-6f)
-        return gain * input;
-
-    return std::tanh (drive * gain * input) / std::tanh (drive);
+    return std::tanh (drive_ * linearGain_ * input) / tanhDrive_;
 }
 } // namespace faultcounter

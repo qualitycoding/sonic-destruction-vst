@@ -86,8 +86,8 @@ void Engine::process (float* const* channelData, int numChannels, int numSamples
             continue;
         }
 
-        state.preamp.setGain (settings_.gain);
-        state.tone.setTone (settings_.tone, settings_.toneEnabled);
+        // setSettings() already pushes gain/tone into every channel; no
+        // per-block re-application needed here.
 
         for (int i = 0; i < numSamples; ++i)
         {

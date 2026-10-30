@@ -231,6 +231,10 @@ void FaultCounterProcessor::pullSettings()
         settings_.tone = 0.5f;
     if (! std::isfinite (settings_.bitControl))
         settings_.bitControl = 1.0f;
+    // juce::jlimit passes NaN through (neither comparison fires), so the Hz
+    // value needs the same explicit guard as the normalized parameters above.
+    if (! std::isfinite (settings_.sampleRateHz))
+        settings_.sampleRateHz = 58000.0f;
 }
 
 void FaultCounterProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)

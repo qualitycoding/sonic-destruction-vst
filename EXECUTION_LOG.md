@@ -125,3 +125,12 @@ e881a0e4...4e10, artefact on persistent mount, not committed). Trademark
 audit clean: no WMD assets, product identity original. Blocked and deferred
 to CI/clean machines: real-DAW host matrix, win/macOS, Release rehearsal —
 see docs/validation/DAW_ACCEPTANCE.md.
+
+## S-REVIEW (2026-10-30, UTC) — traditional code review, passes
+reviews/CODE_REVIEW.md: 3 findings fixed (R-01 sampleRate NaN guard in
+pullSettings; R-02 Preamp constant caching kept bit-identical via division
+form; R-03 removed Engine::process redundant per-block setGain/setTone), 4
+accepted Low risks, R-08 licence notices carried to S-PACKAGE. Post-fix
+Debug suite 34/34, 22,507,698 assertions (count identical to pre-fix
+baseline — golden paths bit-exact), rc=0. Deviation recorded: in-session
+review instead of fresh context; S-ADVERSARIAL still ahead.
