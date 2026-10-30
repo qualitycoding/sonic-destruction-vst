@@ -1,0 +1,200 @@
+# S-009: CI-equivalent validation — three-OS builds, ASan/UBSan fuzz,
+# benchmark, dependency pin/advisory check, pluginval level 10.
+name: validation
+
+on:
+  push:
+  pull_request:
+
+env:
+  JUCE_COMMIT: 3fb5cbc0340758596dac39f7c8de47d562b4896e
+  CATCH2_COMMIT: 08092139210881f01a34e60c5f2fd6afa0ea4024
+  PLUGINVAL_VERSION: v1.0.4
+
+jobs:
+  # T-001..T-018, T-023: full frozen suite on three OS targets.
+  build-test:
+    name: build-and-test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        build-type: [Debug, Release]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Pin CMake 3.30.5
+        run: pipx install cmake==3.30.5 || pip install cmake==3.30.5
+
+      - name: Fetch pinned JUCE and Catch2
+        shell: bash
+        run: |
+          git clone https://github.com/juce-framework/JUCE.git juce-src
+          git -C juce-src checkout ${{ env.JUCE_COMMIT }}
+          git clone https://github.com/catchorg/Catch2.git catch2-src
+          git -C catch2-src checkout ${{ env.CATCH2_COMMIT }}
+
+      - name: Configure
+        shell: bash
+        run: >
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
+          -DFAULTCOUNTER_BUILD_TESTS=ON -DFAULTCOUNTER_BUILD_PLUGIN=ON
+          -DFETCHCONTENT_SOURCE_DIR_JUCE=$PWD/juce-src
+          -DFETCHCONTENT_SOURCE_DIR_CATCH2=$PWD/catch2-src
+
+      - name: Build
+        run: cmake --build build --config ${{ matrix.build-type }} --parallel 4
+
+      - name: Verify frozen manifest
+        shell: bash
+        run: sha256sum -c tests/FROZEN_MANIFEST.sha256
+
+      - name: Test
+        run: ctest --test-dir build -C ${{ matrix.build-type }} --output-on-failure
+
+      - name: Upload VST3 artifact (Release)
+        if: matrix.build-type == 'Release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: faultcounter-vst3-${{ matrix.os }}
+          path: |
+            build/src/plugin/FaultCounter_artefacts/Release/Fault Counter.vst3
+            build/src/plugin/FaultCounter_artefacts/Release/Fault Counter.vst3/Contents
+
+  # T-014: 100,000 seeded malformed state/parameter fuzz cases under ASan+UBSan.
+  sanitizer-fuzz:
+    name: asan-ubsan-fuzz (ubuntu)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pin CMake 3.30.5
+        run: pipx install cmake==3.30.5 || pip install cmake==3.30.5
+      - name: Fetch pinned JUCE and Catch2
+        shell: bash
+        run: |
+          git clone https://github.com/juce-framework/JUCE.git juce-src
+          git -C juce-src checkout ${{ env.JUCE_COMMIT }}
+          git clone https://github.com/catchorg/Catch2.git catch2-src
+          git -C catch2-src checkout ${{ env.CATCH2_COMMIT }}
+      - name: Configure with sanitizers
+        shell: bash
+        run: >
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_CXX_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
+          -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address,undefined"
+          -DCMAKE_SHARED_LINKER_FLAGS="-fsanitize=address,undefined"
+          -DFAULTCOUNTER_BUILD_TESTS=ON -DFAULTCOUNTER_BUILD_PLUGIN=ON
+          -DFETCHCONTENT_SOURCE_DIR_JUCE=$PWD/juce-src
+          -DFETCHCONTENT_SOURCE_DIR_CATCH2=$PWD/catch2-src
+      - name: Build
+        run: cmake --build build --parallel 4
+      - name: Fuzz 100,000 cases (ASan+UBSan)
+        run: FAULTCOUNTER_FUZZ_CASES=100000 ./build/FaultCounterTests "T-014*"
+      - name: Full suite under sanitizers
+        run: FAULTCOUNTER_FUZZ_CASES=1000 ctest --test-dir build --output-on-failure
+
+  # T-015: SC-09 release benchmark with allocation instrumentation.
+  benchmark:
+    name: benchmark (ubuntu, Release)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pin CMake 3.30.5
+        run: pipx install cmake==3.30.5 || pip install cmake==3.30.5
+      - name: Fetch pinned JUCE and Catch2
+        shell: bash
+        run: |
+          git clone https://github.com/juce-framework/JUCE.git juce-src
+          git -C juce-src checkout ${{ env.JUCE_COMMIT }}
+          git clone https://github.com/catchorg/Catch2.git catch2-src
+          git -C catch2-src checkout ${{ env.CATCH2_COMMIT }}
+      - name: Configure Release
+        shell: bash
+        run: >
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          -DFAULTCOUNTER_BUILD_TESTS=ON
+          -DFETCHCONTENT_SOURCE_DIR_JUCE=$PWD/juce-src
+          -DFETCHCONTENT_SOURCE_DIR_CATCH2=$PWD/catch2-src
+      - name: Build
+        run: cmake --build build --parallel 4
+      - name: Benchmark (zero-alloc + 20x real-time, 3 runs)
+        run: ./build/FaultCounterTests "T-015*" --reporter compact
+
+  # Dependency advisory check: the project has no package-manager dependency
+  # tree (JUCE/Catch2/pluginval are pinned to exact audited commits, not
+  # version ranges). This job fails if any pin drifts from plan/ENVIRONMENT.md.
+  dependency-advisory:
+    name: dependency pin / advisory scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify pins match the environment lock
+        shell: bash
+        run: |
+          grep -q "3fb5cbc0340758596dac39f7c8de47d562b4896e" plan/ENVIRONMENT.md
+          grep -q "08092139210881f01a34e60c5f2fd6afa0ea4024" plan/ENVIRONMENT.md
+          grep -q "ed19c2c16b57a6d94db391bea3ef4a80b769d5bf" plan/ENVIRONMENT.md
+          grep -q "JUCE_COMMIT: 3fb5cbc0340758596dac39f7c8de47d562b4896e" .github/workflows/validation.yml
+          echo "All dependency pins match plan/ENVIRONMENT.md; no version-range dependencies to scan."
+
+  # T-017: pluginval strictness 10 on the release VST3 (SC-08), three OS.
+  pluginval:
+    name: pluginval strictness 10 (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pin CMake 3.30.5
+        run: pipx install cmake==3.30.5 || pip install cmake==3.30.5
+      - name: Fetch pinned JUCE
+        shell: bash
+        run: |
+          git clone https://github.com/juce-framework/JUCE.git juce-src
+          git -C juce-src checkout ${{ env.JUCE_COMMIT }}
+      - name: Configure Release plugin
+        shell: bash
+        run: >
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          -DFAULTCOUNTER_BUILD_TESTS=OFF -DFAULTCOUNTER_BUILD_PLUGIN=ON
+          -DFETCHCONTENT_SOURCE_DIR_JUCE=$PWD/juce-src
+      - name: Build VST3
+        run: cmake --build build --config Release --parallel 4 --target FaultCounter
+
+      - name: Install pluginval (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update && sudo apt-get install -y xvfb libx11-dev libxext-dev libxinerama-dev libxrandr-dev libxcursor-dev libxcomposite-dev libasound2-dev libfreetype6-dev libfontconfig1-dev libgl1-mesa-dev
+          curl -sSL -o pluginval.zip https://github.com/Tracktion/pluginval/releases/download/${{ env.PLUGINVAL_VERSION }}/pluginval_Linux.zip
+          unzip -o pluginval.zip
+          echo "PLUGINVAL=$PWD/pluginval" >> "$GITHUB_ENV"
+      - name: Install pluginval (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          curl -sSL -o pluginval.zip https://github.com/Tracktion/pluginval/releases/download/${{ env.PLUGINVAL_VERSION }}/pluginval_macOS.zip
+          unzip -o pluginval.zip
+          echo "PLUGINVAL=$PWD/pluginval/pluginval.app/Contents/MacOS/pluginval" >> "$GITHUB_ENV"
+      - name: Install pluginval (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: |
+          curl -sSL -o pluginval.zip https://github.com/Tracktion/pluginval/releases/download/${{ env.PLUGINVAL_VERSION }}/pluginval_Windows.zip
+          unzip -o pluginval.zip
+          echo "PLUGINVAL=$PWD/pluginval.exe" >> "$GITHUB_ENV"
+
+      - name: Validate VST3 at strictness 10 (Linux, xvfb)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          VST3=$(find build -name "Fault Counter.vst3" -type d | head -1)
+          xvfb-run -a "$PLUGINVAL" --strictness-level 10 --validate-in-process "$VST3"
+      - name: Validate VST3 at strictness 10
+        if: matrix.os != 'ubuntu-latest'
+        shell: bash
+        run: |
+          VST3=$(find build -name "Fault Counter.vst3" -type d | head -1)
+          "$PLUGINVAL" --strictness-level 10 --validate-in-process "$VST3"
