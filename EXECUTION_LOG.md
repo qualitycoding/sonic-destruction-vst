@@ -153,3 +153,10 @@ of 403bff6 + Linux rehearsal package with provenance caveat), root
 LICENCE.md. GATE-G-002.md: hold — no proceed instruction; licence decision,
 cross-platform rebuilds, and real-DAW closure are release-time actions.
 No public release performed.
+
+## S-KNOW (2026-10-30, UTC) — knowledge push disposition: do-not-push recorded
+No target knowledge repository provided (A-010); no proceed instruction.
+Fallback bundle created and verified: /mnt/agents/work/pkg-rehearsal/
+knowledge-run-20261028T222647Z-geiger-vst3.bundle (lessons/ + knowledge/
+from 9adb7ac, bundle ref a83bf99, verify OK). GATE-G-003.md records the
+terminal state. All plan stages complete; execution halts.
