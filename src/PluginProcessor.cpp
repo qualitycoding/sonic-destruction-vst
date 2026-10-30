@@ -377,7 +377,10 @@ void FaultCounterProcessor::setStateInformation (const void* data, int sizeInByt
         return;
 
     apvts_.replaceState (restored);
-    pullSettings();
+    // No pullSettings() here: it would write the plain-struct settings_ on the
+    // message thread while processBlock() reads it on the audio thread
+    // (torn-read glitch vector). processBlock re-pulls every block, so the
+    // next audio callback picks up the restored values atomically.
 }
 
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()

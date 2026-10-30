@@ -134,3 +134,13 @@ accepted Low risks, R-08 licence notices carried to S-PACKAGE. Post-fix
 Debug suite 34/34, 22,507,698 assertions (count identical to pre-fix
 baseline — golden paths bit-exact), rc=0. Deviation recorded: in-session
 review instead of fresh context; S-ADVERSARIAL still ahead.
+
+## S-ADVERSARIAL (2026-10-30, UTC) — adversarial review, passes
+reviews/ADVERSARIAL_REVIEW.md: A-001..A-010 challenged, hostile state/
+parameters/denormals/schedules/exhaustion probed, overclaim vectors audited
+(none user-visible). One confirmed Medium break AR-01: setStateInformation
+raced settings_ (message-thread pullSettings vs audio-thread processBlock);
+fixed by removing the redundant call. Post-fix frozen suite 34/34,
+22,507,698 assertions, rc=0. Accepted: AR-02 prepareToPlay host contract,
+AR-03 unreachable lround(NaN), AR-04 no new frozen tests needed (fix
+removes hazard, no behavior change).
