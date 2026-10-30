@@ -81,3 +81,28 @@ Scope notes (documented, not silent):
   pass. The 100k case count itself is covered by the Debug run above.
 - T-015 20x processor-level: enforced by frozen test in any NDEBUG build;
   locally substited by the engine-level -O2 benchmark + Debug 2x floor pass.
+
+## S-010 (2026-10-30, UTC) — hardware absent, approximation-only recorded
+Hardware pedal and capture interface unavailable in this environment.
+Per plan S-010 action 4, capture skipped without fabricating data;
+research/HARDWARE_UNAVAILABLE.md written as the unavailability record.
+Consequences recorded there: A-007/A-008 remain approximation conventions;
+S-011/S-012 (Hardware-Matched track) blocked on physical hardware.
+
+## S-013 (2026-10-30, UTC) — GATE-G-001 disposition: approximation-only
+GATE-G-001.md written: human response `approximation-only`. No T-019…T-021
+reports exist; no captures, residuals, or coverage claims made. Product
+label proposed: "software emulation inspired by the WMD Geiger Counter —
+not hardware-matched". Licensing statement: no WMD IP bundled; all tables
+software-generated. SC-11 disposition upgraded; G-002 public release still
+blocked. Approximation-only development continues at S-014.
+
+## Push status (2026-10-30, UTC)
+PAT rejected by GitHub API with HTTP 401 (verified directly against
+api.github.com/user, not a push-path artifact). Earlier pushes this session
+succeeded on the same token, so the token has been revoked or expired.
+Local commits queued for push once a rotated PAT is supplied:
+  - 6e046b9 S-009 green (robustness/fuzz/perf/repro/golden-meta + T-017 evidence)
+  - (pending) S-010/S-013 records
+Rotate with `workflow` scope so .github/workflows/validation.yml (currently
+untracked) can also be pushed.
