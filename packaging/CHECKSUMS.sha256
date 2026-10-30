@@ -1,0 +1,15 @@
+# SHA-256 sums — Fault Counter v0.1.0 packaging artefacts
+# Artefacts live on the persistent build mount (not committed; binaries
+# do not belong in git). Regenerate with: sha256sum <file>
+
+# Source archive, commit 403bff6 (post-review HEAD)
+94c6a542b71e606f1c93f04f436dc976d8562133a45d56b1c4b69f65aac86442  FaultCounter-0.1.0-source-403bff6.tar.gz
+
+# Unsigned Linux VST3 rehearsal package — NOTE: built at commit 13dff2d,
+# BEFORE the S-REVIEW/S-ADVERSARIAL code fixes (ab508b8, 403bff6). It is a
+# packaging rehearsal artefact only. Final release packages MUST be rebuilt
+# from the release commit and re-hashed at release time (G-002 procedure).
+e881a0e446f26a1048ea035b9776aa31c735c1d7b45817edea25fa01d8f49e10  FaultCounter-0.1.0-unsigned-linux-vst3-rehearsal.tar.gz
+
+# Reproduction: both sums above were computed on 2026-10-30 (UTC) in the
+# sandbox environment documented in plan/ENVIRONMENT.md.

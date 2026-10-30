@@ -144,3 +144,12 @@ fixed by removing the redundant call. Post-fix frozen suite 34/34,
 22,507,698 assertions, rc=0. Accepted: AR-02 prepareToPlay host contract,
 AR-03 unreachable lround(NaN), AR-04 no new frozen tests needed (fix
 removes hazard, no behavior change).
+
+## S-PACKAGE / S-RELEASE (2026-10-30, UTC) — artefacts prepared; G-002 hold
+packaging/NOTICES.md (R-08 closed; A-003 AGPL-3.0 default, commercial JUCE
+licence required for closed source), packaging/RELEASE_NOTES.md (draft with
+mandatory approximation label), packaging/CHECKSUMS.sha256 (source archive
+of 403bff6 + Linux rehearsal package with provenance caveat), root
+LICENCE.md. GATE-G-002.md: hold — no proceed instruction; licence decision,
+cross-platform rebuilds, and real-DAW closure are release-time actions.
+No public release performed.
