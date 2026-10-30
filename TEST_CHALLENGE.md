@@ -229,3 +229,33 @@ sliders (`name := "gain"`). JUCE Sliders do not request keyboard focus by
 default; `setWantsKeyboardFocus(true)` is required per control. Fixed in the
 impl's `styleRotary`/`styleToggle`; consistent with the frozen accessibility
 requirement, so recorded here for traceability rather than as a test change.
+
+## Amendment round 4 (S-009, 2026-10-30) — new tests T-013…T-016/T-023 frozen after verified red
+
+New frozen tests (no stub exists at this stage; red verified by deliberate
+implementation mutation, failing by assertion — never by compile error or
+missing fixture; each mutation reverted immediately after its red run):
+
+- T-013 (RobustnessTest): engine forced to emit NaN per sample → all 3 cases
+  fail at the `std::isfinite` output check (RobustnessTest.cpp:43).
+- T-014 (FuzzTest): processor bypass early-return restored (pre-SC-06-fix
+  behaviour) → fuzz case 0 fails at the `std::isfinite` check
+  (FuzzTest.cpp:158). This red run also exposed a genuine defect: the bypass
+  path returned hostile NaN/Inf untouched; fixed in `processBlock` (zero
+  non-finite samples; finite-input bit identity preserved, T-010 unaffected).
+- T-015 (PerfTest): a `std::make_unique` added to `pullSettings` (runs inside
+  the audio callback) → zero-allocation case fails at the allocation counter
+  check (PerfTest.cpp:107). Benchmark case unaffected, as expected.
+- T-016 (ReproducibilityTest): partition-dependent perturbation added to the
+  engine output → block-partition case fails at the bit-identity check
+  (ReproducibilityTest.cpp:80). Same-schedule determinism case unaffected.
+- T-023 (GoldenMetaTest): run against the pre-S-009 schema-1 manifest (no
+  provenance fields) → fails on the missing `commit` field
+  (GoldenMetaTest.cpp:260). Manifest regenerated as schema 2 with commit,
+  environmentLock (SHA-256 of plan/ENVIRONMENT.md), generatedUtc, seed,
+  blockSchedule, parameterState; PCM fixture bytes bit-identical after
+  regeneration.
+
+T-015 note: the SC-09 20x real-time target applies to release builds; the
+frozen test enforces 20x under NDEBUG and a 2x smoke floor in Debug so it
+stays strict on every configuration.
