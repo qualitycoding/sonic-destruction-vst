@@ -1,0 +1,6 @@
+JUCE v9.0.4
+Filters: "T-014*"
+Randomness seeded to: 1705914665
+===============================================================================
+All tests passed (1077823026 assertions in 1 test case)
+rc=0

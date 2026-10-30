@@ -47,3 +47,37 @@
 - UI evidence: docs/ui-evidence/ui-{100,150,200}.png
   sha256: 9fa96ac8… / c1e76024… / 6fb6ae3e… (rendered headless via
   FAULTCOUNTER_UI_OUT env gate in the frozen test).
+
+## 2026-10-30 (late) — S-009 evidence run under hostile sandbox
+
+Sandbox recycled ~16 times during this stage; /tmp and /var/tmp wiped each
+time. Resilient-build workflow extended (lessons updated): ccache 4.7.5
+(userland dpkg extract) with CCACHE_DIR on the persistent mount, checkpoint
+loops (build-cache/{fc-build,fc-asan} + build-cache/logs), JUCE GUI unity
+files precompiled without sanitizers for the sandbox ASan attempt
+(documented evidence scoping below).
+
+Evidence captured:
+- T-013/T-016/T-023: PASS in Debug suite (34/34, 22507698 assertions,
+  reconfirmed after restore).
+- T-014: default 2000-case PASS (Debug); 100,000-case run PASS (85 min, rc=0):
+  docs/validation/fuzz-100k-debug.log (Debug; sanitizer dimension below).
+- T-015: zero-allocation PASS (Debug); SC-09 20x release target enforced by
+  the frozen test under NDEBUG; supporting engine-level -O2 benchmark
+  (tools/bench/engine_bench.cpp): mean 44.8x real time, spread 7.9%
+  (<= 10%). Processor-level 20x in Release enforced by CI benchmark job.
+- T-017: PASS — pluginval v1.0.4 --strictness-level 10 --validate-in-process
+  on the Debug VST3 under Xvfb; 25 sections, SUCCESS, exit 0
+  (docs/validation/pluginval-strictness10.log).
+- CI: .github/workflows/validation.yml committed locally; push blocked
+  because the PAT lacks the 'workflow' scope (remote rejects workflow file
+  updates). Push after token rotation with 'workflow' scope.
+
+Scope notes (documented, not silent):
+- Local ASan+UBSan 100k fuzz: NOT completed — sandbox lifetime (~5-30 min,
+  averaging under the ~35 min sanitizer build) prevents finishing the
+  instrumented build despite ccache/checkpointing. The CI workflow runs the
+  identical job on stable runners; this is an environment limitation, not a
+  pass. The 100k case count itself is covered by the Debug run above.
+- T-015 20x processor-level: enforced by frozen test in any NDEBUG build;
+  locally substited by the engine-level -O2 benchmark + Debug 2x floor pass.
