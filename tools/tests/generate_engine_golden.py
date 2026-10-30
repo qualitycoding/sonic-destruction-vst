@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Generate frozen expected PCM for the independent engine reference."""
 from __future__ import annotations
-import hashlib, json, math, struct
+import hashlib, json, math, struct, subprocess
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -69,13 +70,32 @@ def inputs() -> dict[str, list[float]]:
         'silence': [0.0] * LENGTH,
     }
 
+def environment_lock() -> str:
+    """SHA-256 of the pinned environment file (T-023 environment-lock hash)."""
+    return hashlib.sha256((ROOT / 'plan/ENVIRONMENT.md').read_bytes()).hexdigest()
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     tables = ASSET.read_bytes()
     manifest = {
-        'schema': 1,
+        'schema': 2,
         'generator': 'tools/tests/generate_engine_golden.py',
+        'commit': subprocess.run(
+            ['git', 'rev-parse', 'HEAD'], cwd=ROOT, capture_output=True, text=True, check=True
+        ).stdout.strip(),
+        'environmentLock': environment_lock(),
+        'generatedUtc': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+        'seed': 0x47C0,  # LCG seed of the deterministic noise fixture
         'sampleRate': SAMPLE_RATE,
+        'blockSchedule': [LENGTH],  # EngineGoldenTest processes one block of `length`
+        'parameterState': {
+            'sampleRate': REQUESTED_RATE,
+            'bits': BITS,
+            'table': TABLE,
+            'position': POSITION,
+        },
+        # Legacy top-level keys retained for human diff continuity.
         'requestedRate': REQUESTED_RATE,
         'bits': BITS,
         'table': TABLE,

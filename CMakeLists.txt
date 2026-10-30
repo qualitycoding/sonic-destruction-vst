@@ -42,6 +42,11 @@ if(FAULTCOUNTER_BUILD_TESTS)
         tests/integration/StateTest.cpp
         tests/integration/BusTest.cpp
         tests/integration/EditorTest.cpp
+        tests/integration/RobustnessTest.cpp
+        tests/integration/FuzzTest.cpp
+        tests/integration/PerfTest.cpp
+        tests/integration/ReproducibilityTest.cpp
+        tests/integration/GoldenMetaTest.cpp
     )
     target_link_libraries(FaultCounterTests PRIVATE faultcounter_core Catch2::Catch2WithMain)
     if(TARGET FaultCounter)
@@ -49,6 +54,7 @@ if(FAULTCOUNTER_BUILD_TESTS)
     endif()
     target_compile_definitions(FaultCounterTests PRIVATE
         FAULTCOUNTER_TABLE_ASSET_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets/tables/procedural.bin"
+        FAULTCOUNTER_REPO_ROOT="${CMAKE_CURRENT_SOURCE_DIR}"
     )
     include(Catch)
     catch_discover_tests(FaultCounterTests)

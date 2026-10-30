@@ -1,7 +1,20 @@
 {
-  "schema": 1,
+  "schema": 2,
   "generator": "tools/tests/generate_engine_golden.py",
+  "commit": "d85bddfc33a55731c2c1cfa53e0561a0101927d9",
+  "environmentLock": "84b778c95666475844b04a842550964373ff0dbe74735b9138ba7c1b90f244ca",
+  "generatedUtc": "2026-10-30T08:16:02Z",
+  "seed": 18368,
   "sampleRate": 48000,
+  "blockSchedule": [
+    512
+  ],
+  "parameterState": {
+    "sampleRate": 9000,
+    "bits": 3,
+    "table": 42,
+    "position": "post"
+  },
   "requestedRate": 9000,
   "bits": 3,
   "table": 42,

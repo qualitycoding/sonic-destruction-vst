@@ -274,7 +274,19 @@ void FaultCounterProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     pullSettings();
 
     if (settings_.bypass)
-        return; // in-place buffer: input is already the output (bit-identical)
+    {
+        // In-place buffer: input is already the output (bit-identical for
+        // finite samples). Hostile NaN/Inf samples are zeroed so nothing
+        // non-finite escapes (SC-06); identity holds for all finite input.
+        for (int channel = 0; channel < totalNumOutputChannels; ++channel)
+        {
+            auto* data = buffer.getWritePointer (channel);
+            for (int i = 0; i < buffer.getNumSamples(); ++i)
+                if (! std::isfinite (data[i]))
+                    data[i] = 0.0f;
+        }
+        return;
+    }
 
     gainSmoothed_.setTargetValue (settings_.gain);
     toneSmoothed_.setTargetValue (settings_.tone);
