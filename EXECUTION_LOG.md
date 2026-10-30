@@ -106,3 +106,10 @@ Local commits queued for push once a rotated PAT is supplied:
   - (pending) S-010/S-013 records
 Rotate with `workflow` scope so .github/workflows/validation.yml (currently
 untracked) can also be pushed.
+
+## Push backlog cleared (2026-10-30, UTC)
+Rotated PAT accepted (API 200). Pushed queued commits:
+  c8a8dad..f79d133  (S-009 green 6e046b9 + S-010/S-013 records)
+  f79d133..40f805e  (CI: .github/workflows/validation.yml — new token
+                     carries workflow scope; previously untracked)
+Remote verified in sync at 40f805e.
