@@ -1,5 +1,7 @@
 # Geiger Counter–Style VST3 — Planning Handoff
 
+
+Reading order: `HANDOFF.md` → `ADDENDUM-PLAN-V3.9.md` → `plan/PLAN.md`. Later protocol amendments take precedence only where the gap ledger says so.
 **Run ID:** `run-20261028T222647Z-geiger-vst3`  
 **Branch:** `gen-20261028T222647Z-geiger-vst3`  
 **Active profile:** `software` (`software.deploys = false`)  
