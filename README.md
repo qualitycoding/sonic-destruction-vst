@@ -27,8 +27,7 @@ transfer tables shown as `00` to `FB`. It does not use the original maker's name
 - Testing in a real DAW: none was available, so loading, bypass and automation were only checked with pluginval.
 - A listening test: the blind listening gate (G-LISTEN) is blocked and nothing has been scored.
 - Hardware-based table capture and calibration (T-019 to T-021 never ran).
-- Release. A non-commercial licence applies by default: the source is AGPL-3.0-or-later (`LICENCE.md` on the
-  implementation branch). Closed-source or commercial distribution needs a commercial JUCE licence first.
+- Release. The source is Apache-2.0 (`LICENSE` on this branch), but binaries linking JUCE fall under AGPL-3.0 or a commercial JUCE licence. The implementation branch's `LICENCE.md` says AGPL-3.0-or-later instead, which needs reconciling.
 
 ## Other contents of this branch
 
