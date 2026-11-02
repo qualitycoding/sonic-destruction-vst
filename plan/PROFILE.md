@@ -7,3 +7,7 @@
 - `publication`: N/A.
 
 Accordingly, mathematical proof artifacts, computational figure specifications, manuscript artifacts, and deployment operations artifacts are not required.
+
+## v3.9 addendum profile confirmation
+
+Active profiles unchanged; `software` active; `software.deploys` unchanged. Target protocol v3.9.

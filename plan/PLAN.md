@@ -1,3 +1,5 @@
+# PLAN — protocol v3.9 (upgraded by ADDENDUM-PLAN-V3.9.md)
+
 # Geiger Counter–Style VST3 Clone — Implementation Plan
 
 **Status:** READY  
