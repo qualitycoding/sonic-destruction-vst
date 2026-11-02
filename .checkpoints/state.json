@@ -6,7 +6,8 @@
     "software"
   ],
   "mode_flags": {
-    "software.deploys": false
+    "software.deploys": false,
+    "audio": true
   },
   "phase": "S-002",
   "subphase": "in_progress",
@@ -120,7 +121,7 @@
       "sub_action": "complete",
       "retry_count": 0
     },
-    "scratchpad": "Frozen suite 11/11 green (Debug + ASan/UBSan) after \u00a710 amendment round; six frozen-test defects fixed via TEST_CHALLENGE.md; manifest re-frozen.",
+    "scratchpad": "Frozen suite 11/11 green (Debug + ASan/UBSan) after §10 amendment round; six frozen-test defects fixed via TEST_CHALLENGE.md; manifest re-frozen.",
     "in_flight_operation": null,
     "tool_cache": {}
   },
@@ -141,7 +142,9 @@
     "variable_store": {}
   },
   "tier_substitutions": [],
-  "open_items": [],
+  "open_items": [
+    "listening gate G-LISTEN: blocked — see listening/G-LISTEN/round-001/result.json"
+  ],
   "knowledge_store": {
     "location": "not supplied; propose owner/knowledge at G-003",
     "commit_read": "",
@@ -156,5 +159,20 @@
     "K-20261028T222647Z-pluginval-validation",
     "K-20261028T222647Z-wmd-geiger-controls"
   ],
-  "updated_at": "2026-10-28T23:27:36.502241+00:00"
+  "updated_at": "2026-11-02T14:15:19Z",
+  "listening_gate": {
+    "gate_id": "G-LISTEN",
+    "test_type": "implementation-equivalence",
+    "round": 1,
+    "status": "blocked",
+    "seed": 20261104,
+    "result_path": "listening/G-LISTEN/round-001/result.json",
+    "blockers": [
+      "S-002 and S-008 through S-014 are still pending in the native checkpoint.",
+      "G-001 remains approximation-only and must not be rewritten.",
+      "Golden-model reference renders and matched C++ candidate renders are required."
+    ],
+    "next_step": "S-PACKAGE",
+    "updated_at": "2026-11-02T14:15:19Z"
+  }
 }

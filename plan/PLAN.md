@@ -566,6 +566,32 @@ Numeric tolerances for floating-point filter comparisons are `max(1e-6, 32ε)` f
 - **Lessons applied:** all.
 - **Exclusive resources:** release channel.
 
+### S-LISTEN — blind listening execution for G-LISTEN
+- Tier: Opus
+- Profile: audio/software
+- Depends on: applicable implementation steps, S-REVIEW/S-ADVERSARIAL where required, and all named prerequisites
+- Inputs: `plan/LISTENING-AMENDMENT.md`, `listening/G-LISTEN/round-001/result.json`, frozen metrics, reference/candidate render manifests
+- Actions:
+  1. Verify all prerequisites are complete; if any is missing, leave this step `blocked` and update the native checkpoint/log.
+  2. Prepare owner-local `listening-work/G-LISTEN/round-001/` with matched `ref/`, `cand/`, concealed `blind/`, `events/`, `demos/`, and a listener-only bundle.
+  3. Build 12 onset pairs with `scripts/make_blind_pairs.py --window start --seconds 1.0 --rms-db -23.0 --fade 0.010 --fs 44100 --seed 20261104`; retain the pre-match level metrics and all hashes.
+  4. Render every demo from reproducible event/session inputs; demos are mandatory even if the numeric score passes.
+  5. Collect ordered A/B answers and verbatim qualitative findings before disclosing the key.
+  6. Score locally with `scripts/score_blind.py`; record the exact one-sided binomial p-value and side-bias count in `listening/G-LISTEN/round-001/result.json`.
+  7. Respond only with: `proceed`, `iterate: <notes>`, `proceed-with-rescope: <text>`, `stop`.
+- Outputs: `listening/G-LISTEN/round-001/result.json`, `answers.txt`, `score.txt`, `findings.md`, `metrics.md`, `provenance.md`, `render-manifest.json`, `SHA256SUMS`, and `GATE-G-LISTEN.LISTENING.md`.
+- Evidence produced: primary 12-pair onset score, reproducible demos, weak-spot answers, provenance/checksums, and this repository's next-step checkpoint update.
+- Done when: prerequisites pass, ≤8/12 on the primary set, no unresolved qualitative finding material to the gate purpose, evidence/result records are complete, and the response names `S-PACKAGE`.
+- Checkpoint: keep the existing native checkpoint/run ID; add a listening pointer, round, status, candidate commit, and exact next action.
+- On failure or missing prerequisite: set `status = blocked`; do not manufacture a score or relax any frozen metric.
+- Gate: G-LISTEN
+- Relevant decisions/claims: D-001
+- Blockers recorded now:
+  - S-002 and S-008 through S-014 are still pending in the native checkpoint.
+  - G-001 remains approximation-only and must not be rewritten.
+  - Golden-model reference renders and matched C++ candidate renders are required.
+- Claim guard: The result is implementation-equivalence evidence only; hardware authenticity remains approximation-only.
+
 ### S-RETRO Retrospective
 - **Tier:** Opus, fresh context
 - **Profile:** software

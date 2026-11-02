@@ -7,3 +7,7 @@
 - `publication`: N/A.
 
 Accordingly, mathematical proof artifacts, computational figure specifications, manuscript artifacts, and deployment operations artifacts are not required.
+
+## Audio mode
+
+- `audio`: **true** — blind-listening evidence is required by the cross-repository audio-validation amendment.

@@ -160,3 +160,4 @@ Fallback bundle created and verified: /mnt/agents/work/pkg-rehearsal/
 knowledge-run-20261028T222647Z-geiger-vst3.bundle (lessons/ + knowledge/
 from 9adb7ac, bundle ref a83bf99, verify OK). GATE-G-003.md records the
 terminal state. All plan stages complete; execution halts.
+| 2026-11-02T14:15:19Z | S-LISTEN/G-LISTEN | 1 | blocked | 1d25802bae78b12e5fdc144e80b6e9d0fee873ed | listening/G-LISTEN/round-001/result.json | Insert S-LISTEN before package refresh, then resume S-PACKAGE only after G-LISTEN closes. |
