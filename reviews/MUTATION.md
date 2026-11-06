@@ -30,3 +30,12 @@ survivors are converted to tests or written class-grouped justifications.
 
 Workflow/config pinned in CI; first run and floor calibration **pending in CI**
 (honest-evidence substitution, D-905/D-906 — not claimed as locally passed).
+
+## v3.14 sharding note (2026-11-07)
+
+Sharding (per `skills/mutation-sharding`) is **N/A at planning time** (D-1003):
+the priced estimate stays inside the 20 min incremental / 120 min full budgets.
+If the first real run exceeds runtime, memory, or install budget, activate the
+generated per-file/per-module shard matrix with CPU/memory/parallelism/step caps,
+three bounded install attempts, per-shard report gates, and one
+completeness-checking aggregate job.

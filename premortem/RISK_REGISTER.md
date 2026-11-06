@@ -12,3 +12,10 @@ The complete R-001…R-012 register is in `plan/PLAN.md` §12. All Critical/High
 
 Pre-mortem rounds repeated to zero Critical risks; High risk retained honestly
 with owner and mitigation.
+
+## v3.14 amendment risks (2026-11-07)
+
+| ID | Description | Severity | Likelihood | Root cause | Mitigation |
+|---|---|---|---|---|---|
+| R-100 | Same-author cold read of the v3.14 changes; independence not demonstrated | High | certain (environment constraint) | No fresh-context reviewer available in sandbox (D-1007) | Recorded as substitution; owner review before merge; verifier + retrospective |
+| R-101 | Owner recordings not yet supplied when S-LISTEN becomes runnable | Medium | possible | Capture chain not yet exercised (T-019 floor unknown) | A-904 fallback to approximation-only; G-LISTEN cannot start without reference link records |

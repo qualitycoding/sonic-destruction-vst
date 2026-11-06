@@ -1,4 +1,4 @@
-# PLAN — protocol v3.9 (upgraded by ADDENDUM-PLAN-V3.9.md)
+# PLAN — protocol v3.14 (upgraded by ADDENDUM-PLAN-V3.9.md and ADDENDUM-PLAN-V3.14.md)
 
 # Geiger Counter–Style VST3 Clone — Implementation Plan
 
@@ -568,6 +568,27 @@ Numeric tolerances for floating-point filter comparisons are `max(1e-6, 32ε)` f
 - **Lessons applied:** all.
 - **Exclusive resources:** release channel.
 
+### S-LISTEN ABX blind listening validation
+- **Tier:** Opus
+- **Profile:** software; audio mode flag
+- **Depends on:** S-ADVERSARIAL
+- **Inputs:** owner pedal recordings (primary reference set, D-1002); candidate renders from the offline renderer; frozen listening metrics (T-### additions via test-challenge procedure if not already frozen); `scripts/make_blind_pairs.py`; `scripts/score_blind.py`.
+- **Actions:**
+  1. Record the reference chain for every owner capture (mic'd amp/cab or DI, interface, gain staging, sample rate) and obtain the owner's licence/permission statement for each file; store link records with checksums and `redistributable = true`; never commit private-reference audio.
+  2. Freeze quantitative listening metrics as tests before any listening round; the gate never relaxes them.
+  3. Build ABX (same/different) pairs with a fresh seed after every round the listener has seen results for; render demos headlessly from event files; publish the CI evidence bundle (demos, pair metadata, link records, hashes) on the orphan evidence branch with marker commit `[gate-evidence G-LISTEN]`.
+  4. Ask the listener only "same or different" per pair; score against chance. The pass condition is frozen before round 1 (owner-set, e.g. discrimination at chance level across N pairs).
+  5. On `iterate`, classify every failure the listener reports (onset, tone, noise, table character) into a defect, repair, re-render, new seed, re-run; at most 3 rounds, then escalate.
+- **Outputs:** `GATE-G-LISTEN.md`, ABX answer sheet and key, demo renders, reference link records, round log.
+- **Evidence produced:** listening-gate record required by the v3.14 addendum.
+- **Done when:** the human response at G-LISTEN is recorded and, if `proceed`, the ABX score meets the frozen pass condition.
+- **Checkpoint:** round number, seed, score, defect classifications.
+- **On failure:** iterate within the 3-round limit; after round 3 mark `BLOCKED — HUMAN DECISION REQUIRED` with the listener's notes.
+- **Gate:** G-LISTEN.
+- **Relevant decisions/claims:** D-1001 (ABX protocol); D-1002 (owner recordings as primary reference); Rule 15 reference-material route; SC-11.
+- **Lessons applied:** electric-guitar-builder G-LISTEN round 4 (2026-11-05): the which-is-real format saturated when the DI reference carried fewer realism cues than the candidate; recorded guidance for this repo is same/different (ABX) and/or a mic'd reference chain.
+- **Exclusive resources:** the listener; the owner capture chain.
+
 ### S-RETRO Retrospective
 - **Tier:** Opus, fresh context
 - **Profile:** software
@@ -615,6 +636,7 @@ Numeric tolerances for floating-point filter comparisons are `max(1e-6, 32ε)` f
 |---|---|---|---|
 | G-001 | S-013 | Table coverage, raw-data hashes, capture noise, held-out residuals, unavailable record if applicable | `hardware-matched`: use hardware asset and label; `approximation-only`: retain procedural asset and explicit label; `stop`: end delivery |
 | G-002 | S-RELEASE | Packages, hashes, SBOM, licences, green CI, host matrix, both reviews, fidelity label | `proceed: <version> <target>`: upload once; `stop`: retain private artifacts |
+| G-LISTEN | S-LISTEN | ABX pair key record, listener instructions (same/different task), demo renders, owner pedal-recording reference link records with licence/permission statement and checksums, reference-chain description (mic'd/DI), frozen metric report, round count | `proceed`; `iterate: <notes>`; `proceed-with-rescope: <text>`; `stop` |
 | G-003 | S-KNOW | Lesson/knowledge IDs, tags, secret scan, proposed store | `push-to-proposed`; `push-to: <target>`; `do-not-push` |
 
 While waiting at a gate, independent work may continue only when it does not depend on the gate outcome. No external or irreversible action is allowed while G-002 is unresolved.
@@ -635,6 +657,7 @@ While waiting at a gate, independent work may continue only when it does not dep
 | SC-10 | T-011, T-014 | S-002, S-009 |
 | SC-11 | T-019…T-021 | S-010…S-013 |
 | SC-12 | T-014…T-017, review records | S-009, S-REVIEW, S-ADVERSARIAL |
+| Audio realism (v3.14) | Frozen listening metrics, ABX pair key | S-LISTEN; gate G-LISTEN |
 
 ## 10. Freeze, deviation, and resumption protocol
 
