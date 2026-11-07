@@ -12,3 +12,4 @@
 - S-V314-100 pass — mutation sharding condition recorded (D-1003).
 - S-V314-110 pass with substitution — traceability rows added; same-author cold read (D-1007).
 - S-V314-120 pass — status, retrospective, deviations updated; remote SHA verified after each push.
+- G-003 pass — owner response `push-to-proposed`; 4 knowledge items pushed to qualitycoding/knowledge (knowledge/geiger-vst3/), index regenerated, taxonomy extended; 0 lessons this run (no-op, verified); GATE-G-003.md written.
