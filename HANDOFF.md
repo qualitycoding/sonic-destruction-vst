@@ -1,7 +1,7 @@
 # Geiger Counter–Style VST3 — Planning Handoff
 
 
-Reading order: `HANDOFF.md` → `ADDENDUM-PLAN-V3.9.md` → `plan/PLAN.md`. Later protocol amendments take precedence only where the gap ledger says so.
+Reading order: `HANDOFF.md` → `ADDENDUM-PLAN-V3.14.md` → `ADDENDUM-PLAN-V3.9.md` → `plan/PLAN.md`. Later protocol amendments take precedence only where the gap ledger says so. The v3.14 addendum is normative for the ABX listening gate (S-LISTEN/G-LISTEN), the owner-recorded reference set, and the protocol v3.14 header.
 **Run ID:** `run-20261028T222647Z-geiger-vst3`  
 **Branch:** `gen-20261028T222647Z-geiger-vst3`  
 **Active profile:** `software` (`software.deploys = false`)  
@@ -22,7 +22,7 @@ Start with [`plan/PLAN.md`](plan/PLAN.md). It is the self-contained, zero-questi
 - Materialize the acceptance tests and verify them red before implementation.
 - Do not weaken frozen tests; use the test-challenge procedure in §10.
 - Record corrections in `lessons/` and new reusable facts in `knowledge/`.
-- Hardware absence selects the approximation-only track; it never justifies fabricated captures or authenticity claims.
+- Hardware capture path: the owner holds the physical pedal and can supply recordings (A-904/D-1002); absence of a usable capture chain (T-019 noise floor) still selects the approximation-only track, and approximation never justifies fabricated captures or authenticity claims.
 - G-001 controls fidelity disposition, G-002 controls public release, and G-003 controls the final knowledge push.
 - Independent steps may continue while waiting at a gate only if they do not depend on its outcome.
 - Finish with S-RETRO and S-KNOW, then halt.

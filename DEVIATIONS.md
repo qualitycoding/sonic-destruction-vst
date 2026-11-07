@@ -18,3 +18,21 @@
    recorded as same-author substitutions with High risk, per S-ADD-090.
 5. **Learning-store push deferred.** G-003 destinations requested; pushes
    await sign-off (do-not-push until then).
+
+---
+
+# DEVIATIONS — v3.14 addendum amendment
+
+**Repository:** `qualitycoding/sonic-destruction-vst` — 2026-11-07.
+
+1. **Source drift reconciliation (D-1000 companion).** At push time the planning
+   branch head was `27a84825` (9 commits ahead of the original audited
+   `8716e093`, all from the merged v3.9 addendum). The implementation branch
+   `impl-v314-addendum-20261107` was created from the reconciled head, not the
+   stale audited commit; recorded in `ADDENDUM-PLAN-V3.14.md`.
+2. **Git transport unavailable (same as v3.9 D-905).** All commits/pushes use the
+   authenticated GitHub Git database API; remote SHAs verified after every push.
+3. **No fresh-context reviewer (D-1007, same pattern as D-906).** The cold read of
+   the v3.14 changes is same-author; recorded as High risk, not an independent pass.
+4. **Learning-store push deferred.** G-003 destinations for the v3.14 items
+   await sign-off; `do-not-push` until then.
